@@ -1,0 +1,25 @@
+{
+  "name": "jest-tests",
+  "version": "0.0.1",
+  "description": "Create a Google Calender Event Test",
+  "main": "index.js",
+  "author": "Cainã Melo",
+  "license": "MIT",
+  "scripts": {
+    "test": "jest",
+    "test-": "HEADLESS=true PARALLEL=true ./utils/scripts/runner.sh",
+    "test-seq": "HEADLESS=false PARALLEL=false ./utils/scripts/runner.sh",
+    "generate-test": "node ./utils/common/cli.js",
+    "generate-parallel-test": "node ./utils/common/parallel-cli.js",
+    "install-chrome-linux": "./utils/scripts/download-local-chrome-linux-deb.sh",
+    "install-chrome-macos": "./utils/scripts/download-local-chrome-macos.sh"
+  },
+  "devDependencies": {
+    "jest": "^27.3.1",
+    "jest-environment-puppeteer": "^6.0.0",
+    "jest-puppeteer": "^6.0.0"
+  },
+  "dependencies": {
+    "puppeteer": "^5.3.1"
+  }
+}
