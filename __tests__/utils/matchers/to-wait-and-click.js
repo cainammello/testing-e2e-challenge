@@ -1,20 +1,4 @@
 const jestPuppeteerConfig = require("../../jest-puppeteer.config");
-// var targetNode = document.querySelector ("a[href*='stackoverflow']");
-// if (targetNode) {
-//     //--- Simulate a natural mouse-click sequence.
-//     triggerMouseEvent (targetNode, "mouseover");
-//     triggerMouseEvent (targetNode, "mousedown");
-//     triggerMouseEvent (targetNode, "mouseup");
-//     triggerMouseEvent (targetNode, "click");
-// }
-// else
-//     console.log ("*** Target node not found!");
-
-function triggerMouseEvent (node, eventType) {
-    var clickEvent = document.createEvent ('MouseEvents');
-    clickEvent.initEvent (eventType, true, true);
-    node.dispatchEvent (clickEvent);
-}
 
 module.exports =
     expect.extend({
