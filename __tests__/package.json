@@ -6,11 +6,7 @@
   "author": "Cainã Melo",
   "license": "MIT",
   "scripts": {
-    "test": "jest",
-    "test-": "HEADLESS=true PARALLEL=true ./utils/scripts/runner.sh",
-    "test-seq": "HEADLESS=false PARALLEL=false ./utils/scripts/runner.sh",
-    "generate-test": "node ./utils/common/cli.js",
-    "generate-parallel-test": "node ./utils/common/parallel-cli.js",
+    "test": "jest",    
     "install-chrome-linux": "./utils/scripts/download-local-chrome-linux-deb.sh",
     "install-chrome-macos": "./utils/scripts/download-local-chrome-macos.sh"
   },
