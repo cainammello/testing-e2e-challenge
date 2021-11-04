@@ -15,6 +15,8 @@ async function openCreateEventModal () {
     // Click the Event button
     await expect(page).toWaitAndClick("div.JPdR6b.QFf4q.qjTEB > div > div > span:nth-child(1)");
 
+    await page.waitForTimeout(jestPuppeteerConfig.animationDelay);
+
     // wait for the modal to be opened
     await expect(page).toSmartWaitForSelector("html > body > div:nth-of-type(4) > div > div > div:nth-of-type(2) > span > div");
 }
@@ -177,14 +179,14 @@ async function saveAndWaitSuccess () {
     await expect(await page.$x("//div[contains(., 'Event saved')]")).not.toBeNull();
 }
 
-async function checkIfEventWasCreatedOnCalendar () {
+async function checkIfEventWasCreatedOnCalendar (eventAdded) {
     const moreEventsOnThisDay = "html > body > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > div > div > div > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(4) > div > div:nth-of-type(5) > div > div [data-opens-day-overview]";
     if (await page.$(moreEventsOnThisDay) !== null ) {
-        console.log("i am here")
         await expect(page).toWaitAndClick(moreEventsOnThisDay);
     }
     
-    const [eventCreated] = await page.$x("//span[contains(., 'Test CM 11-04-2021 4:30-17:30')]");
+    // Check for the event title
+    const [eventCreated] = await page.$x(`//span[contains(., '${eventAdded.title} - ${eventAdded.eventDate} - ${eventAdded.eventTime}')]`);
     await expect(eventCreated).not.toBeNull();
     
     const moreEventsOnThisDayCloseButton = "html > body > div:nth-of-type(4) > div > div > div:nth-of-type(2) > span > div";

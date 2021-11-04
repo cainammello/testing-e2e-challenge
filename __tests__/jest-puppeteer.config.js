@@ -19,7 +19,7 @@ if (!fs.existsSync(chromeExecutable)) {
 
 module.exports = {
     launch: {
-        headless: process.env.HEADLESS !== 'false',
+        headless: false,
         slowMo: process.env.SLOWMO ? process.env.SLOWMO : 5,
         devtools: true,
         product: "chrome",

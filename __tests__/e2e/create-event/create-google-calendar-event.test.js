@@ -1,4 +1,6 @@
 require("../../utils/matchers");
+const eventToAdd = require("./create-event.mock.js").eventToAdd;
+const loginCredentials = require("../../utils/login-credentials.js").loginCredentials;
 const jestPuppeteerConfig = require("../../jest-puppeteer.config");
 const createGoogleCalendarEventUtil = require("./create-google-calendar-event.util.js");
 
@@ -13,7 +15,7 @@ describe.only("Google Calendar Event", () => {
         await expect(page).toSmartWaitForSelector("#identifierId");
 
         // Fills out the email
-        await expect(page).toWaitAndFill("#identifierId", "testeuichallenge@gmail.com");
+        await expect(page).toWaitAndFill("#identifierId", loginCredentials.login);
 
         // Clicks next button
         await expect(page).toWaitAndClick("#identifierNext > div > button");
@@ -24,7 +26,7 @@ describe.only("Google Calendar Event", () => {
         await expect(page).toSmartWaitForSelector(passwordInput);
 
         // CLicks next button
-        await expect(page).toWaitAndFill(passwordInput, "123456789qwerty.");
+        await expect(page).toWaitAndFill(passwordInput, loginCredentials.pass);
 
         await Promise.all([
             await expect(page).toWaitAndClick("#passwordNext > div > button"),
@@ -38,35 +40,31 @@ describe.only("Google Calendar Event", () => {
         await createGoogleCalendarEventUtil.openCreateEventModal();
         
         //Fill out event Tittle
-        await expect(page).toWaitAndFill("#yDmH0d > div > div > div.RDlrG.Inn9w.iWO5td > span > div > div.q2nced > div.K0f0Xc > div.ZX9XLb > div.mvRfff > div.rFrNMe.shdZ7e.Uj1FAb.zKHdkd > div.aCsJod.oJeWuf > div > div.Xb9hP > input", "Test CM");
+        await expect(page).toWaitAndFill(
+            "#yDmH0d > div > div > div.RDlrG.Inn9w.iWO5td > span > div > div.q2nced > div.K0f0Xc > div.ZX9XLb > div.mvRfff > div.rFrNMe.shdZ7e.Uj1FAb.zKHdkd > div.aCsJod.oJeWuf > div > div.Xb9hP > input",
+            `${eventToAdd.title} - ${eventToAdd.eventDate} - ${eventToAdd.eventTime}`);
 
         await page.waitForTimeout(jestPuppeteerConfig.animationDelay);
 
-        await createGoogleCalendarEventUtil.selectDate(new Date("10-15-2021"));
+        await createGoogleCalendarEventUtil.selectDate(eventToAdd.eventDate);
 
         await page.waitForTimeout(jestPuppeteerConfig.animationDelay);
 
-        await createGoogleCalendarEventUtil.selectEventTime({initial: "T000000" ,final: "T013000"});
+        await createGoogleCalendarEventUtil.selectEventTime(eventToAdd.eventTime);
 
         await page.waitForTimeout(jestPuppeteerConfig.animationDelay);
 
-        await createGoogleCalendarEventUtil.selectEventNotification("10 minutes");
+        await createGoogleCalendarEventUtil.selectEventNotification(eventToAdd.notificationToSelect);
 
         await page.waitForTimeout(jestPuppeteerConfig.animationDelay);
 
-        await createGoogleCalendarEventUtil.selectCustomNotification(
-            {
-                type: "Email",
-                number: "35",
-                period: "days"
-            }
-        );
+        await createGoogleCalendarEventUtil.selectCustomNotification(eventToAdd.customNotification);
 
         await page.waitForTimeout(jestPuppeteerConfig.animationDelay);
 
         await createGoogleCalendarEventUtil.saveAndWaitSuccess();
 
-        await createGoogleCalendarEventUtil.checkIfEventWasCreatedOnCalendar();
+        await createGoogleCalendarEventUtil.checkIfEventWasCreatedOnCalendar(eventToAdd);
 
     });
   });
