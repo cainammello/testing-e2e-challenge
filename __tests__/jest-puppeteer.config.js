@@ -20,13 +20,15 @@ if (!fs.existsSync(chromeExecutable)) {
 module.exports = {
     launch: {
         headless: false, //process.env.HEADLESS !== 'false',
-        slowMo: process.env.SLOWMO ? process.env.SLOWMO : 0,
+        //slowMo: process.env.SLOWMO ? process.env.SLOWMO : 0,
+        slowMo: 2,
         devtools: true,
         product: "chrome",
         /** Shows Chrome errors log */
         dumpio: true,
         devtools: false,
         ignoreHTTPSErrors: true,
+        waitElementTimeout: 1000,
         args: ["--no-sandbox", "--disable-setuid-sandbox", "--start-maximized", "--no-cache", "--detectOpenHandles", `--window-size=${browserViewSize.width + (browserViewSize.enableDevTools ? 480 : 0)},${browserViewSize.height + 192}`],
         defaultViewport: browserViewSize,
         executablePath: chromeExecutable,

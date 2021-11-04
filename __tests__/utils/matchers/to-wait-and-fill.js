@@ -1,10 +1,12 @@
+const jestPuppeteerConfig = require("../../jest-puppeteer.config");
+
 module.exports =
     expect.extend({
         async toWaitAndFill(page, selector, content, {timeout} = {}) {
-            timeout = timeout || 400;
+            timeout = timeout || jestPuppeteerConfig.waitElementTimeout;
             
             try {
-                await expect(page).waitForSelector(selector, {timeout});
+                await page.waitForSelector(selector, {visible: true, timeout});
             } catch (error) {
                 console.error("Expected " + selector + " to be visible within " + timeout + " milliseconds.");
                 return {
@@ -14,7 +16,7 @@ module.exports =
             }
 
             try {
-                await page.evaluate(_selector => document.querySelector(_selector).value = "", selector);
+                await page.$eval(selector, _el => _el.value = "");
                 await page.type(selector, content);
             } catch (error) {
                 console.error("Expected " + selector + " to be editable within " + timeout + " milliseconds.");
